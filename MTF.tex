@@ -16,30 +16,32 @@ Le tableau est tout d'abord initialisé en rangeant les caractères utilisé pou
 
 \subsubsection{Algorithme}
 \begin{minted}{c++}
-    /*@function MTF.
-    *@param string chaine, la chaine à encoder.
-    *@param map<char,int> Alphabet, l'alphabet.
-    *@return vector<size_t> indices, la chaine encodé dans une suite d'indices.
-    */
-    vector<size_t> MTF(string chaine, map<char, int> Alphabet){
+/*@function MTF.
+*@param string chaine, la chaine à encoder.
+*@param map<char,int> Alphabet, l'alphabet.
+*@return vector<size_t> indices, la chaine encodé dans une suite d'indices.
+*/
+vector<size_t> MTF(string chaine, map<char, int> Alphabet){
 	
-	    vector<size_t> indices;
-	    size_t k(0);
+    vector<size_t> indices;
+    map<char,int>::iterator it;
+    size_t k(0);
 
-	    for(size_t i(0); i < chaine.length(); ++i)
-	    {
-		
-		    k = Alphabet.at(chaine[i]);
-		    indices.push_back(k);
-		    Alphabet[chaine[i]] = -1;
-		    for(auto &e : Alphabet)
-	    		e.second++;
+    for(size_t i(0); i < chaine.length(); ++i)
+    {
+	
+	    k = Alphabet.at(chaine[i]);
+	    indices.push_back(k);
+	    Alphabet[chaine[i]] = 0;
+	    for(it = Alphabet.begin(); it != Alphabet.find(chaine[i]) && it != Alphabet.end(); ++it){
+		    it->second++;
+		}
 			
-    	}
-	
-	    return indices;
-	
     }
+	
+    return indices;
+	
+}
 \end{minted}
 
 

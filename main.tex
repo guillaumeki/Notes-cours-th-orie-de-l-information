@@ -9,6 +9,7 @@
 \usepackage{amsthm}
 \usepackage{calrsfs}
 \usepackage{stmaryrd}
+\usepackage{minted}
 \usepackage{fancyhdr}
 \usepackage[inline]{asymptote} 
 \usepackage[linesnumbered,ruled,french,onelanguage]{algorithm2e}
@@ -97,7 +98,6 @@
 \usepackage{color}
 \definecolor{gren}{rgb}{0.158, 0.488, 0.408}
 \definecolor{bren}{rgb}{0.45, 0.21, 0.000}
-
 
 \title{Notes de cours d'informatique théorique (HMIN 118)}
 \author{Guillaume Pérution-Kihli}
@@ -548,6 +548,9 @@ Taille code & 1 & 3 & 3 & 3 & 3 \\
 \par La longueur totale de l'encodage de la chaîne sera : $1*4 + 3*7 = 25$ bits. Le nombre de symboles moyen encodés par bit est de $\frac{25}{11} \simeq 2,27 > 2,19 \simeq H(X)$. On constate qu'on est sur un cas avec la même moyenne que Shannon-Fano.
 \end{example}
 
+	\subsection{Codage Move-to-Front}
+	
+        \input{MTF.tex}
 
 \section*{Annexe}
 \subsection*{Sources}
