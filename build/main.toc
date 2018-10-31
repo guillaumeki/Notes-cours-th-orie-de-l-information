@@ -1,8 +1,0 @@
-\select@language {french}
-\contentsline {section}{\numberline {1}Th\IeC {\'e}orie de l'information de Shannon}{2}{section.1}
-\contentsline {subsection}{\numberline {1.1}Mesure de l'information de Hartley}{2}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}Mesure de l'information de Shannon}{2}{subsection.1.2}
-\contentsline {section}{\numberline {2}Codes et techniques de compression}{3}{section.2}
-\contentsline {subsection}{\numberline {2.1}Codes, codes pr\IeC {\'e}fixes et in\IeC {\'e}galit\IeC {\'e} de Kraft}{3}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Codage de Shannon-Fano}{3}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Codage de Huffman}{5}{subsection.2.3}
