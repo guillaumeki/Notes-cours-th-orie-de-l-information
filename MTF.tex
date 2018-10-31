@@ -1,0 +1,82 @@
+\par L'algorithme MTF (pour move-to-front : "déplacer vers l'avant") est un système de transformation de flot utilisé notamment dans le domaine de la compression de données en informatique. 
+
+\subsubsection{Fonctionnement}
+\par Cet algorithme consiste à remplacer chaque caractère par un indice donné par un tableau évoluant de manière dynamique. 
+Le tableau est tout d'abord initialisé en rangeant les caractères utilisé pour le codage comme ceci : \\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    Indice & 0 & 1 & 2 & 3 & 4 & ... & 25\\
+    \hline
+    Caractère & A & B & C & D & E & ... & Z\\
+    \hline
+\end{tabular}
+
+\par Lorsqu'un caractère est lu, son indice est émis, puis ce caractère est placé en première position et tous les autres caractères décalés.
+
+\subsubsection{Algorithme}
+\begin{minted}{c++}
+    /*@function MTF.
+    *@param string chaine, la chaine à encoder.
+    *@param map<char,int> Alphabet, l'alphabet.
+    *@return vector<size_t> indices, la chaine encodé dans une suite d'indices.
+    */
+    vector<size_t> MTF(string chaine, map<char, int> Alphabet){
+	
+	    vector<size_t> indices;
+	    size_t k(0);
+
+	    for(size_t i(0); i < chaine.length(); ++i)
+	    {
+		
+		    k = Alphabet.at(chaine[i]);
+		    indices.push_back(k);
+		    Alphabet[chaine[i]] = -1;
+		    for(auto &e : Alphabet)
+	    		e.second++;
+			
+    	}
+	
+	    return indices;
+	
+    }
+\end{minted}
+
+
+\subsubsection{Spécificité}
+\par Lorsque des caractères semblables se suivent, le flux émis contiendra beaucoup de 0 alors que dans une compression statistique (type codage de Huffman) augmentera considérablement le Taux de compression de données.
+
+\subsubsection{Exemple :}
+Exemple de l'application MTF à yabadabadoo\$ :
+
+\begin{tabular}{|c|c|c|}
+    \hline
+    Caractère lu & Indices & Alphabet \\
+    \hline
+      &  & \$abcdefghijklmnopqrstuvwxyz \\
+      \hline
+    y & 25 & y\$abcdefghijklmnopqrstuvwxz\\
+    \hline
+     ya & 25;2 & ay\$bcdefghijklmnopqrstuvwxz\\
+    \hline
+     yab & 25;2;3 & bay\$cdefghijklmnopqrstuvwxz\\
+    \hline
+     yaba & 25;2;3;1 & aby\$cdefghijklmnopqrstuvwxz\\
+    \hline
+     yabad & 25;2;3;1;5 & daby\$cefghijklmnopqrstuvwxz \\
+    \hline
+     yabada & 25;2;3;1;5;1 & adby\$cefghijklmnopqrstuvwxz \\
+    \hline
+     yabadab & 25;2;3;1;5;1;2 & bady\$cefghijklmnopqrstuvwxz\\
+    \hline
+     yabadaba & 25;2;3;1;5;1;2;1 & abdy\$cefghijklmnopqrstuvwxz \\
+    \hline
+     yabadabad & 25;2;3;1;5;1;2;1;2 & daby\$cefghijklmnopqrstuvwxz \\
+    \hline
+     yabadabado & 25;2;3;1;5;1;2;1;2;16 & odaby\$cefghijklmnpqrstuvwxz \\
+    \hline
+     yabadabadoo & 25;2;3;1;5;1;2;1;2;16;0 & odaby\$cefghijklmnpqrstuvwxz \\
+    \hline
+     yabadabadoo\$ & 25;2;3;1;5;1;2;1;2;16;0;5 & \$odabycefghijklmnpqrstuvwxz \\
+    \hline
+\end{tabular}
