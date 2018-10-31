@@ -1,0 +1,177 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{calrsfs}
+\usepackage{stmaryrd}
+\usepackage{fancyhdr}
+\usepackage[inline]{asymptote} 
+\usepackage[linesnumbered,ruled,french,onelanguage]{algorithm2e}
+\SetKwComment{Comment}{$\triangleright$\ }{}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    linktoc=section,
+    linkcolor=red,
+    urlcolor=orange,
+    filecolor=red
+}
+\usepackage{times}
+\usepackage{todonotes}
+\usepackage{latexsym}
+\usepackage{verbatim}
+\usepackage{amsmath,amssymb}
+\usepackage{upgreek}
+\usepackage{dsfont}
+\usepackage{framed}
+\usepackage{amsfonts}
+\newcommand{\tocheck}[1]{\textcolor{blue}{#1}}
+\newcommand{\overbar}[1]{\mkern 3mu\overline{\mkern-3mu#1\mkern-3mu}\mkern 3mu}
+\usepackage{fullpage,setspace}
+\linespread{1.5}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{lemma}{Lemme}
+\newtheorem{theorem}{Théorème}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{definition}{Définition}
+\newtheorem{heuristique}{Heuristique}
+\newtheorem{scenario}{Scénario}
+\newtheorem{fact}{Fait}
+\newtheorem{example}{Exemple}
+\newtheorem{postulate}{Postulat}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollaire}
+\newtheorem{property}{Propriété}
+\numberwithin{lemma}{subsection}
+\numberwithin{theorem}{subsection}
+\numberwithin{definition}{subsection}
+\numberwithin{proposition}{subsection}
+\numberwithin{corollary}{subsection}
+\numberwithin{property}{subsection}
+\numberwithin{example}{subsection}
+\numberwithin{heuristique}{subsection}
+\numberwithin{scenario}{subsection}
+\newenvironment{proofi} {\noindent\emph{Proof:}} {\hfill $\square$\vspace{0.2cm}}
+\newcommand{\eod}{\ensuremath{\hfill\dashv}}
+\newcommand{\eop}{\ensuremath{\hfill\clubsuit}}
+\newcommand{\fun}[1]{\ensuremath{\mbox{\it #1}}}
+\newcommand{\expo}[2]{{#1}^{\mbox{\scriptsize \sl #2}}}
+\newcommand{\var}{\ensuremath{\mathbf{var}}\xspace}
+\newcommand{\exv}{\ensuremath{\mathbf{exv}}\xspace}
+\newcommand{\dsv}{\ensuremath{\mathbf{dsv}}\xspace}
+\newcommand{\term}{\ensuremath{\mathbf{term}}\xspace}
+\newcommand{\pred}{\ensuremath{\mathbf{pred}}\xspace}
+\newcommand{\fr}{\ensuremath{\mathbf{fr}}\xspace}
+\newcommand{\cnst}{\ensuremath{\mathbf{cnst}}\xspace}
+\newcommand{\Vars}{\ensuremath{\mathsf{Vars}}\xspace}
+\newcommand{\Pvars}{\ensuremath{\mathsf{Pvars}}\xspace}
+\newcommand{\Fvars}{\ensuremath{\mathsf{Fvars}}\xspace}
+\newcommand{\Terms}{\ensuremath{\mathsf{Terms}}\xspace}
+\newcommand{\Cons}{\ensuremath{\mathsf{Const}}\xspace}
+\newcommand{\Preds}{\ensuremath{\mathsf{Preds}}\xspace}
+\newcommand{\ic}{\ensuremath{\cdot\{}\xspace}
+\newcommand{\ci}{\ensuremath{\}\cdot}\xspace}
+\newcommand{\id}{\ensuremath{:\hspace{-1.56mm}\{}\xspace}
+\newcommand{\di}{\ensuremath{\}\hspace{-1.56mm}:}\xspace}
+\newcommand{\bet}{\ensuremath{\beta^{\diamond}}\xspace}
+\newcommand{\sep}{\ensuremath{\mathbf{sep}}\xspace}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\vars}[1]{\fun{vars}{(#1)}}
+\newcommand{\terms}[1]{\fun{terms}{(#1)}}
+\newcommand{\atoms}[1]{\fun{atoms}{(#1)}}
+\newcommand{\type}[1]{\fun{type}{(#1)}}
+\newcommand{\const}{a}
+\newcommand{\atom}{\alpha}
+
+\newcounter{deuxfois}
+\newcommand{\sig}{\ensuremath{\mathbf{sig}}\xspace}
+
+\usepackage{color}
+\definecolor{gren}{rgb}{0.158, 0.488, 0.408}
+\definecolor{bren}{rgb}{0.45, 0.21, 0.000}
+
+
+\title{Notes de cours d'informatique théorique (HMIN 118)}
+\author{Guillaume Pérution-Kihli}
+\begin{document}
+\maketitle
+\renewcommand{\contentsname}{Sommaire}
+\tableofcontents
+\pagebreak
+
+\section{Théorie de l'information de Shannon}
+	\subsection{Mesure de l'information de Hartley}
+	
+L'information est le nombre de réponses possible.
+\par Hartley suppose que pour composer un message, il faut avoir un alphabet dans lequel le composer. Cet alphabet doit comporter un nombre fini $s$ de symboles. Un message comportant $n$ symboles tirés d'un alphabet de taille $s$ n'est donc qu'un parmi les $s^n$ messages possibles.
+\par D'après Hartley, la quantité d'information intrinsèque au message doit être proportionnelle à sa longueur fois une quantité qui ne dépend que du nombre de symboles de l'alphabet. Autrement dit, la quantité d'information $H$ d'un message de longueur $n$ est de la forme $H = k * n$ où la constante $k$ est à déterminer.
+\par Pour obtenir la fonction désirée, Hartley propose d'utiliser le logarithme et de calculer $$H = log(s^n) = n*log(s) $$.
+\par Ce logarithme peut avoir différentes bases, et l'unité de mesure de l'information change en fonction de ces bases.
+\par
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+base &  & nom de l'unité \\
+\hline
+$2$ & $2 (log_2)$ & bit \\
+\hline
+$e$ & $e (ln)$ & nat \\
+\hline
+$10$ & $10(log_{10})$ & hartley \\
+\hline
+\end{tabular}
+\end{center}
+
+\par Cette méthode de mesure a cependant un important défaut : tous les symboles du message sont considérés comme contenant la même quantité d'information puisqu'on les multiplie tous par la même constante.
+
+	\subsection{Mesure de l'information de Shannon}
+
+Pour Shannon, l'unité d'information est le bit. Avec le bit comme mesure, l’information devient une notion essentiellement probabiliste donc quantifiable. Et s’il y a beaucoup de manières de passer un message en binaire, il n’y en a qu’une qui permette de réaliser la quantité d’information de Shannon. L’entropie de Shannon mesure la quantité d’information d’un message : un signal peu informatif est redondant et donc prédictible d’un point de vue des probabilités, alors qu’un signal très informatif est très diversifié et donc peu prédictible.
+\par Pour une source, qui est une variable aléatoire discrète $X$ comportant $n$ symboles, chaque symbole $x_i$ ayant une probabilité $P_i$ d'apparaître, l'entropie $H$ de la source $X$ est définie comme :
+$$H_b(X)= -\mathbb E [\log_b {P(X)}] = \sum_{i=1}^nP_i\log_b \left(\frac{1}{P_i}\right)=-\sum_{i=1}^nP_i\log_b P_i.\,\!$$
+où $\mathbb  E$ désigne l'espérance mathématique, et $\log _{b}$ le logarithme en base $b$. On utilise en général un logarithme à base 2 car l'entropie possède alors les unités de bit/symbole. Les symboles représentent les réalisations possibles de la variable aléatoire $X$. Dans ce cas, on peut interpréter $H(X)$ comme le nombre de questions à réponse oui/non que doit poser en moyenne le récepteur à la source, ou la quantité d'information en bits que la source doit fournir au récepteur pour que ce dernier puisse déterminer sans ambiguïté la valeur de $X$.
+$$H(X)=H_2(X)= -\sum_{i=1}^nP_i\log_2 P_i.\,\!$$
+
+\section{Codes et techniques de compression}
+	\subsection{Codes, codes préfixes et inégalité de Kraft}
+
+\begin{scenario}
+A veut transmettre quelques informations à B.
+\end{scenario}
+
+$element \in \chi \rightarrow chaine ~binaire$
+
+\begin{definition}{Fonction de décodage}
+\par $D : {0,1}^* \rightarrow \chi$.
+\par $E = D^{-1}$.
+\end{definition}
+
+\begin{theorem}{Inégalité de Kraft}
+\par Il existe un code uniquement décodable sur un alphabet de taille $r$, avec $n$ mots de code de tailles $l_1, l_2, ..., l_n$, ssi $$\sum_{i=1}^n r^{-l_i} \leqslant 1$$
+\end{theorem}
+
+\begin{definition}{Sans préfixe}
+\par Un code est dit sans préfixe si aucun mot de code n'est préfixe d'un autre.
+\end{definition}
+
+	\subsection{Codage de Shannon-Fano}
+
+\section*{Annexe}
+\subsection*{Sources}
+\begin{itemize}
+\item \href{https://www.sciencepresse.qc.ca/blogue/2014/12/24/mesurer-linformation-selon-hartley}{Mesurer l'information selon Hartley}
+\item \href{https://fr.wikipedia.org/wiki/Entropie_de_Shannon}{Entropie de Shannon}
+\item \href{https://centenaire-shannon.cnrs.fr/chapter/la-theorie-de-information}{Claude Shannon : Le monde en binaire}
+\item \href{https://en.wikipedia.org/wiki/Kraft\%E2\%80\%93McMillan_inequality}{Kraft–McMillan inequality}
+\end{itemize}
+
+
+\end{document}
