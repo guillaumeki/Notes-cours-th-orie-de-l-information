@@ -17,30 +17,32 @@ Le tableau est tout d'abord initialisé en rangeant les caractères utilisé pou
 \subsubsection{Algorithme}
 \begin{minted}{c++}
 /*@function MTF.
-*@param string chaine, la chaine à encoder.
-*@param map<char,int> Alphabet, l'alphabet.
-*@return vector<size_t> indices, la chaine encodé dans une suite d'indices.
-*/
-vector<size_t> MTF(string chaine, map<char, int> Alphabet){
-	
-    vector<size_t> indices;
-    map<char,int>::iterator it;
-    size_t k(0);
+ *@param string chaine, la chaine à encoder.
+ *@param vector<char> Alphabet, l'alphabet.
+ *@return vector<size_t> indices, la chaine encodé dans une suite d'indices.
+ */
+vector<size_t> MTF(string chaine, vector<char> Alphabet)
+{
+	vector<size_t> indices;
+	size_t k(0);
 
-    for(size_t i(0); i < chaine.length(); ++i)
-    {
-	
-	    k = Alphabet.at(chaine[i]);
-	    indices.push_back(k);
-	    Alphabet[chaine[i]] = 0;
-	    for(it = Alphabet.begin(); it != Alphabet.find(chaine[i]) && it != Alphabet.end(); ++it){
-		    it->second++;
+	for(string::iterator it = chaine.begin(); it != chaine.end(); it++)
+	{
+		for(size_t i(0); i < Alphabet.size(); ++i)
+		{
+			if(*it == Alphabet[i])
+			{
+				indices.push_back( i );
+				char c = Alphabet[i];
+				for( int z = i - 1; z >= 0; z-- )
+	    			Alphabet[z + 1] = Alphabet[z];
+ 
+        			Alphabet[0] = c;
+			}
 		}
-			
-    }
+	}
 	
-    return indices;
-	
+	return indices;
 }
 \end{minted}
 
