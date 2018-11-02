@@ -1,1 +1,8 @@
 build/* 
+*.aux
+*.log
+*.out
+*.pre
+*.gz
+*.toc
+*.pdf

@@ -1,7 +1,8 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
-\usepackage[T1]{fontenc}
+\usepackage[T1]{fontenc}            
+\usepackage{lmodern}
 \usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -92,6 +93,15 @@
 \newcommand{\const}{a}
 \newcommand{\atom}{\alpha}
 
+\newcommand{\Zero}{\includegraphics[height=12px]{img/jetons/0}}
+\newcommand{\Successor}{\includegraphics[height=12px]{img/jetons/S}}
+\newcommand{\Identity}{\includegraphics[height=12px]{img/jetons/I}}
+\newcommand{\Left}{\includegraphics[height=12px]{img/jetons/gauche}}
+\newcommand{\Right}{\includegraphics[height=12px]{img/jetons/droite}}
+\newcommand{\Composition}{\includegraphics[height=12px]{img/jetons/composition}}
+\newcommand{\Recurse}{\includegraphics[height=12px]{img/jetons/R}}
+\newcommand{\Mu}{\includegraphics[height=12px]{img/jetons/mu}}
+
 \newcounter{deuxfois}
 \newcommand{\sig}{\ensuremath{\mathbf{sig}}\xspace}
 
@@ -100,8 +110,11 @@
 \definecolor{bren}{rgb}{0.45, 0.21, 0.000}
 
 \title{Notes de cours d'informatique théorique (HMIN 118)}
-\author{Guillaume Pérution-Kihli}
+\author{Guillaume Pérution-Kihli, Julien Rodriguez}
+
+
 \begin{document}
+
 \maketitle
 \renewcommand{\contentsname}{Sommaire}
 \tableofcontents
@@ -550,7 +563,11 @@ Taille code & 1 & 3 & 3 & 3 & 3 \\
 
 	\subsection{Codage Move-to-Front}
 	
-        \input{MTF.tex}
+		\input{MTF.tex}
+
+\section{Théorie algorithmique de l'information}
+	
+	\input{AlgoInfoTheory}
 
 \section*{Annexe}
 \subsection*{Sources}
@@ -561,6 +578,11 @@ Taille code & 1 & 3 & 3 & 3 & 3 \\
 \item \href{https://en.wikipedia.org/wiki/Kraft\%E2\%80\%93McMillan_inequality}{Kraft–McMillan inequality}
 \item \href{https://fr.wikipedia.org/wiki/Codage_de_Shannon-Fano}{Codage de Shannon-Fano}
 \item \href{https://en.wikipedia.org/wiki/Shannon\%E2\%80\%93Fano_coding}{Shannon–Fano coding}
+\item \href{https://fr.wikipedia.org/wiki/Th%C3%A9orie_algorithmique_de_l%27information}{Théorie algorithmique de l'information}
+\item \href{https://fr.wikipedia.org/wiki/Complexit%C3%A9_de_Kolmogorov}{Complexité de Kolmogorov}
+\item \href{https://fr.wikipedia.org/wiki/Fonction_r%C3%A9cursive_primitive}{Fonction récursive primitive}
+\item \href{https://fr.wikipedia.org/wiki/Fonction_r%C3%A9cursive}{Fonction récursive}
+\item \href{https://en.wikipedia.org/wiki/%CE%9C-recursive\_function}{$\mu$-recursive function}
 \end{itemize}
 
 

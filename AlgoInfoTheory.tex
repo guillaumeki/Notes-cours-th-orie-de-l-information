@@ -1,0 +1,136 @@
+La théorie algorithmique de l'information, initiée par Kolmogorov, Solomonov et Chaitin dans les années 1960, vise à quantifier et qualifier le contenu en information d'un ensemble de données, en utilisant la théorie de la calculabilité et la notion de machine universelle de Turing.
+
+	\subsection{Mesures de l'information}
+
+\begin{definition}{Machine}
+%comp. = composition ?
+\par Composition de fonctions partielles prenant une chaîne et renvoyant une chaîne.
+\end{definition}
+
+\begin{definition}{M-Description}
+\par Soit une machine $M$ telle que $M(\sigma) = x$. $\sigma$ est une $M-Description$ de $x$.
+\end{definition}
+
+\paragraph{Chaîne binaire et nombre entier} Les fonctions utilisées sont de $\mathbb{N}$ dans $\mathbb{N}$, mais on représentera les nombres entiers sous forme de chaînes binaires. Ainsi, cela devient des fonctions de $\{0,1\}^*$ dans $\{0,1\}^*$.
+\par Ainsi, $\sigma$ sera la représentation sous forme de chaîne binaire de l'entier naturel $n$. La représentation binaire de $n+1$ est $1\sigma$. $n = nombre(\sigma)$ et $\sigma = chaine(n)$.
+
+\begin{definition}{$chaine(n)$}
+\par $$ rec\_chaine(n) = 
+			\left \{
+				\begin{array}{ll}
+					rec\_chaine(n/2).(n~mod~2) & si~ n > 1 \\
+					1 & si~ n = 1 \\
+					0 & sinon \\
+				\end{array}
+			\right.
+	$$
+\par $$ chaine(n) = 
+			\left \{
+				\begin{array}{ll}
+					rec\_chaine(n-1) & si~ n > 0 \\
+					\epsilon & sinon \\
+				\end{array}
+			\right.
+	$$
+\end{definition}
+
+\begin{definition}{$nombre(\sigma)$}
+\par $$ rec\_nombre(n) = 
+			\left \{
+				\begin{array}{ll}
+					2*rec\_nombre(u) & si~ \sigma = u.0 \\
+					2*rec\_nombre(u)+1 & si~ \sigma = u.1 \\
+					0 &sinon \\
+				\end{array}
+			\right.
+	$$
+\par $$ nombre(n) = 
+			\left \{
+				\begin{array}{ll}
+					rec\_nombre(\sigma)+1 & si~ \sigma \not= \epsilon \\
+					0 & sinon \\
+				\end{array}
+			\right.
+	$$
+\end{definition}
+
+\begin{example}
+\begin{itemize}
+\item La chaîne $10$ correspond au nombre $5$.
+\item $\epsilon$ correspond à $0$.
+\end{itemize}
+\end{example}
+
+\begin{definition}{Complexité}
+\par La complexité est la taille de la plus petite chaîne $\sigma$ permettant d'engendrer la chaîne $x$ pour une machine $M$.
+\par $$C_M(x) = min\{|\sigma|:M(\sigma) = x\}$$
+\par $min \emptyset = \inf$.
+\end{definition}
+
+	\subsection{Jetons de Rosza}
+		\subsubsection{Fonctions récursives primitives}
+
+\begin{definition}
+En théorie de la calculabilité, une fonction récursive primitive est une fonction construite à partir de la fonction nulle, fonction successeur, fonctions projections et les schémas primitifs de récursion et de composition. Ces fonctions constituent un sous-ensemble strict des fonctions récursives.
+\par Elles ont été initialement analysées par la mathématicienne Rózsa Péter.
+\par On construit les fonctions récursives primitives par induction en partant des trois fonctions de base :
+\begin{itemize}
+	\item La fonction identiquement nulle ;
+	\item La fonction successeur : $Succ(t)=t+1$ ;
+	\item Les projections : $(x_{1},...,x_{k})\rightarrow x_{i}$.
+\end{itemize}
+et en itérant les deux constructions suivantes :
+\begin{itemize}
+	\item La composition de fonctions : 
+si $g_{1}, g_{2}, ..., g_{k}$ sont récursives primitives sur $\mathbb {N} ^{n}$ 
+et si $h$ est récursive primitive sur $\mathbb {N} ^{k}$, toutes déjà définies,
+alors la fonction $f=h(g_{1},...,g_{k})$ est une fonction récursive primitive définie sur $\mathbb {N} ^{n}$ ;
+
+	\item La définition récursive d'une fonction : 
+si $g$ est récursive primitive sur $\mathbb {N} ^{n}$, et $h$ récursive primitive sur ${\mathbb  N}\times {\mathbb  N}\times {\mathbb  N}^{n}$, on définit une nouvelle fonction récursive primitive $f$ sur ${\mathbb  N}^{{n+1}}$ par :
+	\begin{itemize}
+		\item $f(0,\vec y) = g(\vec y)$
+		\item $ f(Succ(x),\vec y) = h(x,f(x,\vec y),\vec y)$.
+	\end{itemize}
+\end{itemize}
+\end{definition}
+
+\begin{definition}{Jetons de bases}
+\begin{itemize}
+\item \Zero : $~ \mapsto 0$
+\item \Successor : $~x \mapsto x+1$
+\item \Identity : $~x \mapsto x$
+\end{itemize}
+\end{definition}
+
+\begin{definition}{Constructeurs}
+\begin{itemize}
+\item \Left : $~x, \bar{y} \mapsto \bar{y}$
+\item \Right : $~\bar{x}, y \mapsto \bar{x}$
+\item Soient une fonction $f$ récursive primitive d'arité $k$ et les fonctions récursives primitives $g_1,g_2,\ldots,g_k$ d'arité $n$. \par $\Composition(f,g_1,g_2,\ldots,g_k)(\bar{x}) = f(g_1(\bar{x}),g_2(\bar{x}),\ldots,g_k(\bar{x}))$.
+\item Soit $f$ une fonction récursive primitive d'arité $n$ et $g$ une fonction récursive primite d'arité $n+2$. On obtient, la fonction récursive primitive d'arité $n+1$ :
+\par $\Recurse(f,g)(x, \bar{y}) = \left\{
+	\begin{array}{ll}
+		f(\bar{y}) & si ~x = 0 \\
+		g(x-1,\Recurse(f,g)(x-1, \bar{y}),\bar{y}) & sinon
+	\end{array} \right.
+	$
+\end{itemize}
+\end{definition}
+
+	\subsubsection{Fonctions $\mu$-recursives}
+	
+\begin{definition}
+En informatique et en mathématiques, le terme fonction récursive (ou fonction $\mu$-recursive) désigne une classe de fonctions calculables, autrement dit de fonctions dont les valeurs peuvent être calculées à partir de leurs paramètres par un processus mécanique.
+\par Les fonctions récursives primitives sont une sous-partie stricte de l'ensemble des fonctions récursives, elles ne permettent pas de calculer tout ce qui est calculable. Il est nécessaire d'y ajouter une fonction nommée $\mu$.
+\end{definition}
+
+\begin{definition}{Fonction $\mu$}
+\par $\Mu(f) \bar{y} \mapsto min\{x : f(x,\bar{y}) = 0\}$.
+\par À noter : contrairement aux fonctions récursives primitives, $\mu$ n'est pas définie sur tout son domaine : il s'agit d'une fonction récursive partielle.
+\end{definition}
+
+	\subsubsection{Interpréteur de jetons en ligne}
+
+\href{http://rozsa-tokens.info/}{Interpréteur de jetons de Rozsa en ligne : http://rozsa-tokens.info/}
+
