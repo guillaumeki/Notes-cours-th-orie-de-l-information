@@ -1,0 +1,362 @@
+\subsection{La transformée de Burrows-Wheeler}
+
+\par L'algorithme BWT, pour \textit{Burrows-Wheeler Transform} est un prétraitement utilisé en compression de données. Il ne s'agit pas d'un algorithme de compression, car aucune réduction de taille n'est effectuée. 
+\par Il s'agit d'une méthode de réorganisation des données : le probabilité que des caractères identiques initialement éloignés les uns des autres se retrouves côte à côte dans le résultat est accrue.
+
+
+\subsubsection{Fonctionnement}
+\par Dans un premier temps on va copier la chaîne de caractère à coder dans un tableau carré en décalant la chaîne d'un caractère vers la droite à chaque nouvelle ligne. Ensuite, on va trier ces lignes par ordre alphabétique.
+\par Grâce à ce décalage, les dernière lettre de chaque ligne précède la première lettre de la même ligne, sauf pour la ligne originale dont on notera la position. De plus comme les ligne sont rangées par ordre alphabétique, on peut retrouver la première colonne du tableau grâce à la dernière colonne.\\
+
+\subsubsection{Algorithme du codage}
+\begin{minted}{c++}
+pair<size_t, string> BTW_encode(string chaine)
+{
+	
+	string s;
+	pair<int, string> result;
+	vector<string> matrix;
+	
+	matrix.push_back(chaine);
+	s.insert(0, chaine);
+	
+	for(size_t i(1); i < chaine.length(); ++i)
+	{
+		
+		s.insert(s.begin(), s.end()-1, s.end());
+		s.erase(s.end()-1, s.end());
+		matrix.push_back(s);
+		
+	}
+	
+	sort(matrix.begin(), matrix.end());
+	
+	for(size_t i(0); i < matrix.size(); ++i)
+	{
+		
+		result.second.insert(result.second.begin()+i, 
+		                  matrix[i].end()-1, matrix[i].end());
+		if(matrix[i][0] == 'y')
+			result.first = i;
+
+	}
+	
+	return result;	
+}
+\end{minted}
+
+
+\subsubsection{Spécificité}
+On observe que la transformée de textes relativement longs comportent de nombreuses répétitions contiguës de caractères car ils contiennent un nombre élevé de fois les mêmes mots. Cela provient du fait que la transformée de Burrows et Wheeler revient à trier les caractères par ordre alphabétique, puis à chaque fois écrire le caractère qui précédait dans le texte original. Vu qu'elle est construite par rotation, la dernière colonne est composée des caractères précédant. Un exemple flagrant est la transformation de « TEXTUELTEXTUEL » qui donne : « 7UUTTEELLXXTTEE ».
+
+À des fins de compression donc, on utilise un algorithme de type MTF sur cette transformée. Les répétitions de caractères produiront beaucoup de zéros. Un codage de Huffman sur un tel résultat permet d'obtenir un taux élevé de compression. 
+
+\subsubsection{Exemple :}
+\par Prenons l'exemple, \textit{yabadabadoo\$} : \\ 
+
+\subsubsubsection{On fait la rotation :}
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & yabadabadoo\$\\
+    \hline
+    1 & \$yabadabadoo\\
+    \hline
+    2 & o\$yabadabado\\
+    \hline
+    3 & oo\$yabadabad\\
+    \hline
+    4 & doo\$yabadaba\\
+    \hline
+    5 & adoo\$yabadab\\
+    \hline
+    6 & badoo\$yabada\\
+    \hline
+    7 & abadoo\$yabad\\
+    \hline
+    8 & dabadoo\$yaba\\
+    \hline
+    9 & adabadoo\$yab\\
+    \hline
+    10 & badabadoo\$ya\\
+    \hline
+    11 & abadabadoo\$y\\
+    \hline
+\end{tabular}
+
+
+\subsubsubsection{On trie les chaînes :}
+
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & \$yabadabadoo\\
+    \hline
+    1 & abadabadoo\$y  \\
+    \hline
+    2 & abadoo\$yabad\\
+    \hline
+    3 & adabadoo\$yab\\
+    \hline
+    4 & adoo\$yabadab\\
+    \hline
+    5 & badabadoo\$ya\\
+    \hline
+    6 & badoo\$yabada\\
+    \hline
+    7 & dabadoo\$yaba\\
+    \hline
+    8 & doo\$yabadaba\\
+    \hline
+    9 & o\$yabadabado\\
+    \hline
+    10 & oo\$yabadabad\\
+    \hline
+    11 & yabadabadoo\$\\
+    \hline
+\end{tabular}
+
+\subsubsubsection{On repère l'indice de la chaîne à encoder et on l'encode}
+
+\par Chaîne composée des derniers caractères des chaînes triées : oydbbaaaaod\$.
+La chaînes \textit{yabadabadoo\$} apparaît à l'indice 11. On a donc le couple 11 et \textit{oydbbaaaaod\$} ou  simple la chaîne \textit{11oydbbaaaaod\$}.
+
+\subsubsection{Décodage Burrows-Wheeler}
+
+\par Pour décoder un code généré par BWT, il suffit de reconstruire le tableau des chaînes triées à l'aide de la chaîne fourni dans le code.
+
+\par Pour reconstruire ce tableau il suffit de concaténer à l'avant des chaînes du tableau les caractères du code et de trier à chaque tour de boucle (nombre de caractères dans le code). On va donc avoir initialement dans notre tableau un caractères par chaînes (triées) fournis par le code. 
+
+\subsubsubsection{Avec \textit{oydbbaaaaod\$}}
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & o\\
+    \hline
+    1 & y  \\
+    \hline
+    2 & d\\
+    \hline
+    3 & b\\
+    \hline
+    4 & b\\
+    \hline
+    5 & a\\
+    \hline
+    6 & a\\
+    \hline
+    7 & a\\
+    \hline
+    8 & a\\
+    \hline
+    9 & o\\
+    \hline
+    10 & d\\
+    \hline
+    11 & \$\\
+    \hline
+\end{tabular}
+
+\subsubsubsection{Avec \textit{oydbbaaaaod\$} triée}
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & \$\\
+    \hline
+    1 & a  \\
+    \hline
+    2 & a\\
+    \hline
+    3 & a\\
+    \hline
+    4 & a\\
+    \hline
+    5 & b\\
+    \hline
+    6 & b\\
+    \hline
+    7 & d\\
+    \hline
+    8 & d\\
+    \hline
+    9 & o\\
+    \hline
+    10 & o\\
+    \hline
+    11 & y\\
+    \hline
+\end{tabular}
+
+\subsubsubsection{On concatène chaque caractère de \textit{oydbbaaaaod\$} à nos chaînes}
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & o\$\\
+    \hline
+    1 & ya  \\
+    \hline
+    2 & da\\
+    \hline
+    3 & ba\\
+    \hline
+    4 & ba\\
+    \hline
+    5 & ab\\
+    \hline
+    6 & ab\\
+    \hline
+    7 & ad\\
+    \hline
+    8 & ad\\
+    \hline
+    9 & oo\\
+    \hline
+    10 & do\\
+    \hline
+    11 & \$y\\
+    \hline
+\end{tabular}
+
+\subsubsubsection{On trie à nouveau}
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & \$y\\
+    \hline
+    1 & ab   \\
+    \hline
+    2 & ab \\
+    \hline
+    3 & ad\\
+    \hline
+    4 & ad\\
+    \hline
+    5 & ba\\
+    \hline
+    6 & ba\\
+    \hline
+    7 & da\\
+    \hline
+    8 & do\\
+    \hline
+    9 & o\$\\
+    \hline
+    10 & oo\\
+    \hline
+    11 & ya\\
+    \hline
+\end{tabular}
+
+\subsubsubsection{et ainsi de de suite}
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & o\$y\\
+    \hline
+    1 & yab   \\
+    \hline
+    2 & dab \\
+    \hline
+    3 & bad\\
+    \hline
+    4 & bad\\
+    \hline
+    5 & aba\\
+    \hline
+    6 & aba\\
+    \hline
+    7 & ada\\
+    \hline
+    8 & ado\\
+    \hline
+    9 & oo\$\\
+    \hline
+    10 & doo\\
+    \hline
+    11 & \$ya\\
+    \hline
+\end{tabular}
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & Chaine \\
+    \hline
+    0 & \$ya\\
+    \hline
+    1 & aba   \\
+    \hline
+    2 & aba \\
+    \hline
+    3 & ada\\
+    \hline
+    4 & ado\\
+    \hline
+    5 & bad\\
+    \hline
+    6 & bad\\
+    \hline
+    7 & dab\\
+    \hline
+    8 & doo\\
+    \hline
+    9 & o\$y\\
+    \hline
+    10 & oo\$\\
+    \hline
+    11 & yab\\
+    \hline
+\end{tabular}
+
+\subsubsubsection{Une fois la table complète}
+
+\par Il suffit de regarder la ligne qui correspond à l'indice donné par le code.
+
+
+\subsubsection{Algorithme du décodage}
+\begin{minted}{c++}
+string BTW_decode(pair<size_t, string> code)
+{
+	
+	vector<string> matrix;
+	size_t k(0);
+	
+	for(auto e : code.second)
+		matrix.push_back(string(1, e));
+		
+	sort(matrix.begin(), matrix.end());
+	
+	for(size_t i(1); i < code.second.length(); ++i)
+	{
+		
+		k = 0;
+		
+		for(auto &e : matrix)
+		{
+			
+			e.insert(e.begin(), code.second[k]);
+			++k;
+			
+		}
+
+		sort(matrix.begin(), matrix.end());
+		
+	}
+
+	return matrix[code.first];
+	
+}
+\end{minted}
