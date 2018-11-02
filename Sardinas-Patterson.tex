@@ -1,0 +1,32 @@
+\subsection{Sardinas-Patterson}
+
+\par L'algorithme de \textit{Sardinas-Patterson} calcul en temps polynomial si un ensemble de mots de code est sans préfixe. Si tel est le cas un mot de code produit sera \textbf{uniquement décodable}.
+
+
+
+
+\subsubsection{Fonctionnement}
+\par L'algorithme est décrit inductivement par cette définition : \\
+ $ S_1 = C^{-1}C  \setminus \epsilon$ \\
+$S_{i+1} = C^{-1}S_i\cup S_i^{-1}C$
+\par Ici $\epsilon$ représente le mot vide. On utilise la notion de \textbf{quotients résiduels} c'est à dire pour $N^{-1}D = \left\{ y | xy \in D, x \in N \right\} $. En d'autre terme, l'ensemble résultant est l'ensemble des suffixes des mots dans \textbf{D} tel que leurs préfixes sont dans \textbf{N}.
+
+\subsubsection{Algorithme}
+\begin{minted}{c++}
+
+\end{minted}
+
+\subsubsection{Exemple :}
+\par Prenons l'exemple, \textit{\{1, 011, 01110, 1110, 10011\}} : \\ 
+
+\begin{tabular}{|c|c|}
+    \hline
+    Indice & S \\
+    \hline
+    0 & 110, 0011, 10\\
+    \hline
+    1 & 10, 0, 011\\
+    \hline
+\end{tabular}
+
+\par On remarque la présence de \textbf{011} qui est un mot appartenant au code. Ce code n'est donc pas à décodage unique, donc pas sans préfixe. 
