@@ -12,7 +12,6 @@
 \begin{minted}{c++}
 pair<size_t, string> BTW_encode(string chaine)
 {
-	
 	string s;
 	pair<int, string> result;
 	vector<string> matrix;
@@ -22,23 +21,19 @@ pair<size_t, string> BTW_encode(string chaine)
 	
 	for(size_t i(1); i < chaine.length(); ++i)
 	{
-		
 		s.insert(s.begin(), s.end()-1, s.end());
 		s.erase(s.end()-1, s.end());
 		matrix.push_back(s);
-		
 	}
 	
 	sort(matrix.begin(), matrix.end());
 	
 	for(size_t i(0); i < matrix.size(); ++i)
 	{
-		
 		result.second.insert(result.second.begin()+i, 
 		                  matrix[i].end()-1, matrix[i].end());
 		if(matrix[i][0] == 'y')
 			result.first = i;
-
 	}
 	
 	return result;	
@@ -330,7 +325,6 @@ La chaînes \textit{yabadabadoo\$} apparaît à l'indice 11. On a donc le couple
 \begin{minted}{c++}
 string BTW_decode(pair<size_t, string> code)
 {
-	
 	vector<string> matrix;
 	size_t k(0);
 	
@@ -341,22 +335,14 @@ string BTW_decode(pair<size_t, string> code)
 	
 	for(size_t i(1); i < code.second.length(); ++i)
 	{
-		
 		k = 0;
-		
 		for(auto &e : matrix)
 		{
-			
 			e.insert(e.begin(), code.second[k]);
 			++k;
-			
 		}
-
 		sort(matrix.begin(), matrix.end());
-		
 	}
-
 	return matrix[code.first];
-	
 }
 \end{minted}

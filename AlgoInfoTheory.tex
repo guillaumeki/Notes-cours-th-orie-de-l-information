@@ -134,3 +134,49 @@ En informatique et en mathématiques, le terme fonction récursive (ou fonction 
 
 \href{http://rozsa-tokens.info/}{Interpréteur de jetons de Rozsa en ligne : http://rozsa-tokens.info/}
 
+\subsection{Conditionnal information}
+
+\begin{definition}
+$$\mathbb{V}^2(0^{e-1}1\sigma,y)=\phi_e(<\sigma,y>)$$
+\end{definition}
+
+\begin{definition}
+$$C(x|y) = min\{|\sigma|:\mathbb{V}^2(\sigma,y)=x\}$$
+\end{definition}
+
+\subsection{Lien entre C et K}
+
+\par K est une complexité qui est plus naturelle (parce qu'on prend en compte qu'il y a de l'information dans la longueur).
+\par Pour prouver $K(x) \leqslant^+ K(|x|)+|x|$, on a construit une machine sans préfixe N qui tente de décomposer l'entrée $\tau$ en $\tau=\sigma\rho$ tel que $\sigma = |\rho|$ : on va pouvoir en déduire un lien entre C et K.
+
+\begin{theorem}
+$$K(x)\leqslant K(C(x))+C(x)$$.
+\end{theorem}
+
+\begin{theorem}
+$$K(X) \leqslant^+ K(|x|)+|x|$$
+\end{theorem}
+
+\begin{theorem}
+$$C(X) \leqslant^+ K(x) \leqslant^+ C(x) + 2 log(C(x)) \leqslant^+ C(x)+2log(|x|)$$
+\end{theorem}
+
+\begin{proof}
+On sait que $C(x) \leqslant^+ K(x).$
+\end{proof}
+
+\begin{theorem}
+$$\forall x,y, C(xy) \leqslant^+ K(x) + C(y)$$
+\end{theorem}
+
+\begin{theorem}
+$$abs(C(x)-C(y)) \leqslant^+ K(abs(x-y)) \leqslant^+ 2log(abs(x-y))$$
+\end{theorem}
+
+\begin{theorem}
+$$C(x) =^+ K(x|C(x))$$
+\end{theorem}
+
+\begin{corollary}
+$$C(xy) \leqslant^+ C(x) + 2 log(C(x))+C(y)$$
+\end{corollary}
