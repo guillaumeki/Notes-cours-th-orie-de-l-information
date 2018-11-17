@@ -67,6 +67,54 @@ La théorie algorithmique de l'information, initiée par Kolmogorov, Solomonov e
 \par $min \emptyset = \inf$.
 \end{definition}
 
+\begin{definition}Inférieur ou égal à une constante près
+\par $g \leqslant^+ f \iff \exists c \in \mathbb{N}, \forall n [g(n) \leqslant f(n) + c]$
+\end{definition}
+
+
+\begin{definition}{Machine optimale}
+\par $R$ est optimale si quelle que soit la machine $M$, il existe une constante $e_M$ telle que quel que soit $x$, la complexité $C_R(x)$ est inférieure ou égale à $C_M(x) + e_M$.
+\par $\forall M, \exists e_M, \forall x, C_R(x) \leqslant C_M(x) + e_M \Rightarrow R~ optimal$
+\end{definition}
+
+\begin{definition} Énumération des machines
+\par Il existe une liste $\phi_.$ des machines.
+\end{definition}
+
+\begin{definition}Machine universelle $\mathbb{V}$
+\par $\mathbb{V}(0^{e-1}1\rho) \cong \phi_e(\rho)$
+\par $C = C_\mathbb{V}$
+\end{definition}
+
+\begin{theorem}
+$\mathbb{V}$ est calculable et optimale.
+\end{theorem}
+
+\begin{proof}
+\par Pour toute machine $M = M_e$ :
+\par $M(\sigma) = x \Rightarrow \mathbb{V}(0^{e-1}1\sigma) = x$.
+\par Par conséquent, $\forall x, C_\mathbb{V}(x) \leqslant C_M(x) + e$
+\end{proof}
+
+\begin{theorem}
+Soit une machine optimale $R$. On a $C_R(x) \leqslant^+ [x|$.
+\end{theorem}
+
+\begin{proof}
+Soit $M$ la machine qui renvoie son entrée.
+\par Comme $R$ est optimale, $\forall x, C_R(x) \leqslant C_M(x) + k = |x| + k$.
+\end{proof}
+
+\begin{theorem}
+$\forall x, C(x) \leqslant |x| + 1$.
+\end{theorem}
+
+\begin{proof}
+Supposons que $\phi_1$ soit la fonction identité.
+\par On a que $\forall x, C(x) = C_\mathbb{V} \leqslant C_{M_e}(x) + e$.
+\par Or, comme on a supposé que $M_1$ est la machine qui renvoie son entrée, on obtient : $C(x) \leqslant C_{M_1}(x) + 1 = |x| + 1$.
+\end{proof}
+
 	\subsection{Jetons de Rosza}
 		\subsubsection{Fonctions récursives primitives}
 
