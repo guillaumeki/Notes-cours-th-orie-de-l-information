@@ -180,3 +180,120 @@ $$C(x) =^+ K(x|C(x))$$
 \begin{corollary}
 $$C(xy) \leqslant^+ C(x) + 2 log(C(x))+C(y)$$
 \end{corollary}
+
+\subsection{Coding efficiently a pair - some mutual information}
+
+\begin{theorem}
+$C(x,y)\leqslant^+ C(x) + 2~ log~C(x) + C(y|x)$
+\end{theorem}
+
+\begin{theorem}
+$C(x,y)=^+ C(x) + C(y|x) +O(log~n)$
+\par $|x|,|y| \leqslant n$
+\end{theorem}
+
+\begin{definition}
+$I(x:y)=C(y)-C(y|x)$
+\par information content of y in x
+\end{definition}
+
+\begin{theorem}
+$C(x,y)=^+ C(x)+C(y|x)+O(log~C(x,y))$
+\end{theorem}
+
+\begin{theorem}
+$\exists c, I(x:y) \geqslant c$
+\end{theorem}
+
+\begin{theorem}
+$C(y|X) = C(x,y) - C(x) + O(log(C(x,y)))$
+\end{theorem}
+
+\begin{corollary}
+$I(x:y) = C(x) + C(y) - C(x,y) + O(log(C(x,y))$
+\end{corollary}
+
+\begin{corollary}
+$I(x:y) = I(y:x) + O(log(C(x,y)))$
+\end{corollary}
+
+\begin{theorem}
+$I(x:y)+C(x|y) \approx C(x)$
+\end{theorem}
+
+\begin{theorem}
+$C(x|y) + I(x:y)+C(y|x) \approx C(x,y)$
+\end{theorem}
+
+\paragraph{Problem}$\exists x,y,I(x:y) ~large, \not\exists z, C(z|x) \approx 0, C(z|y) \approx 0, C(z) \approx I(x:y)$
+
+\subsection{Kolomogorov au secours de la théorie des nombres premiers}
+
+\par For any $n$, there is an incompressible string $x$ of length $n$. Even, $C(x) \geqslant |x|$.
+
+\begin{definition}
+Incompressible: $C(x) \geqslant^+ [x|$
+\end{definition}
+
+\begin{theorem}
+Théorème des nombres premiers : $\pi_n \leqslant n~log(n)$
+\end{theorem}
+
+\begin{theorem}
+$\pi_i = O(i~log(i)^2)$
+\end{theorem}
+
+\begin{theorem}
+$\pi_i = O(i(log~i)^{(1+\epsilon)}), \epsilon > 0$
+\end{theorem}
+
+\subsection{À quoi ça sert ?}
+
+\begin{theorem}
+Il y a une infinité de nombres premiers.
+\end{theorem}
+
+\begin{theorem}
+Presque letheorèeme des nombres premiers.
+\end{theorem}
+
+\begin{theorem}
+Strong law of large numbers : proportion du nombre de 1 tend vers 1/2 à l'infini.
+\end{theorem}
+
+\begin{theorem}
+Law of iterated logarithm :
+$$|p_n^{ones}-\frac{1}{2}| \leqslant (1 + \epsilon) \sqrt{\frac{ln (ln(n))}{2n}}$$
+\end{theorem}
+
+\begin{definition}
+Razoir d'Occam : moins on a de données pour décrire un système, mieux c'est
+\end{definition}
+
+
+\paragraph{Paradoxe de Berry} The minimal natural number that cannot be defined by at most fourteen Englsh word
+\begin{definition}
+Trous noirs - toute chose est juste un ensemble de bits (Wheeler). Every physical quantity, every it, derives its ultimate significance from bits, binary yes-or-nos indciations"
+\par "it from the bit"
+\end{definition}
+
+\begin{theorem}
+Théorème d'incomplétude Gödel (premier)
+\par Il existe des propositions vraies mais indémontrables
+\end{theorem}
+
+\begin{theorem}
+Deuxième théorème d'incomplétude de Gödel
+\par Cons(T) est l'une d'entre elles
+\end{theorem}
+
+\begin{definition}
+Hereditary base notations
+\par Séquence de Goodstein
+\end{definition}
+
+\par Pas prouvable dans la théorie de Peano mais vrai.
+
+\begin{theorem}
+PA ne prouve pas $\forall n, G(n) \rightarrow 0$.
+\end{theorem}

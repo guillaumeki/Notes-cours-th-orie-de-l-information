@@ -1,0 +1,130 @@
+\subsection{Codage arithmétique}
+
+\par Le codage arithmétique est un codage \textbf{entropique} de compression de données sans perte. Il permet une meilleure compression que le codage de \textbf{Huffman}, sauf lorsque tous les poids pour les feuilles/nœuds/racines de l'arbre de \textbf{Huffman} sont des puissances de 2, auquel cas les deux méthodes sont équivalentes.
+
+\subsubsection{Fonctionnement}
+\par Dans un premier temps on va calculer la probabilité d'apparition pour chaque symbole. A partir de ces probabilités on va subdiviser l'intervalle $[0,1[$ pour chaque symbole en fonction de leurs probabilités d'apparition. Par exemple si le symbole \textbf{e} apparaît à 30\% dans notre texte, alors son intervalle fera 0.3.
+\par A partir de cet intervalle et des probabilités d'apparitions on va pouvoir encoder.
+\\
+
+\subsubsection{Algorithme du codage}
+
+\begin{algorithm}[H]
+\caption{Codage arithmétique}
+Pour chaque symbole, l'associer avec sa fréquence d'apparition.\;
+BI = 0\; 
+BS = 1\; 
+\While{Il reste un caractère c du texte à coder}
+{
+	\For{s symbole de S}
+	{    Attribuer un intervalle à s dans [BI, BS]
+	}
+	   
+	BI = BIc\;
+	BS = BSc\;
+}
+Choisir un n entre BI et BS\;
+Renvoyer n\;
+\end{algorithm}
+
+
+\subsubsection{Spécificité}
+Ce qui différencie le codage arithmétique des autres codages sources est qu'il code le message par morceaux (théoriquement il peut coder un message entier de taille quelconque mais dans la pratique on ne peut coder que des morceaux d'une quinzaine de symboles en moyenne) et représente chacun de ces morceaux par un nombre n (flottant) là où \textbf{Huffman} code chaque symbole par un code précis. Le problème qui en résulte pour le codage \textbf{Huffman} est qu'un caractère ayant une probabilité très forte d'apparition sera codé sur au moins un bit. Par exemple, si on cherche à coder un caractère représenté à 90\%, la taille optimale du code du caractère sera de 0,15 bit alors que \textbf{Huffman} codera ce symbole sur au moins 1 bit, soit 6 fois trop3. C'est cette lacune que le codage arithmétique comble grâce à un algorithme proche du \textbf{codage par intervalle}. 
+
+\subsubsection{Exemple :}
+\par Prenons l'exemple, \textit{canadian} : \\ 
+
+\begin{tabular}{|c|c|}
+    \hline
+    Symbole & Probabilités \\
+    \hline
+    a & 0.375\\
+    \hline
+    c & 0.125\\
+    \hline
+    d & 0.125\\
+    \hline
+    i & 0.125\\
+    \hline
+    n & 0.25\\
+    \hline
+
+\end{tabular}
+
+\par On encode à partir du tableau précédant :
+
+\begin{tabular}{|c|c|}
+    \hline
+    Symbole & Intervalle \\
+    \hline
+     & [0, 1[\\
+    \hline
+    c & [0.375, 0.5[\\
+    \hline
+    a & [0.375, 0.421875[\\
+    \hline
+    n & [0.41015625, 0.421875[\\
+    \hline
+    a & [0.41015625, 0.41455078125[\\
+    \hline
+    d & [0.412353515625, 0.41290283203125[\\
+    \hline
+    i & etc\\
+    \hline
+\end{tabular}
+
+Le mot \textbf{canadian} peut s'éncoder par \textbf{0.41271972656}
+
+\subsubsection{Décodage arithmétique}
+
+\par Pour décoder un code généré par codage arithmétique il suffit d'avoir la table des symboles avec leurs fréquences d'apparitions ainsi que la taille du texte. 
+
+\par A partir de ces informations on va donc pouvoir reconstruire un "découpage" en intervalle dans [0, 1[ pour chaque symbole. A chaque tour $n = (n - BIc) / p$ où \textbf{n} est le réel, \textbf{BIc} la borne inférieur du caractère trouvé et \textbf{p} la probabilité d'apparition de ce même caractère.  
+
+\subsubsection{Exemple : }
+
+\par Prenons l'exemple suivant \textbf{0110100110101} avec comme taille 8 et la probabilité par symbole suivante :
+
+\begin{tabular}{|c|c|}
+    \hline
+    Symbole & Probabilités \\
+    \hline
+    a & 0.375\\
+    \hline
+    c & 0.125\\
+    \hline
+    d & 0.125\\
+    \hline
+    i & 0.125\\
+    \hline
+    n & 0.25\\
+    \hline
+\end{tabular}
+
+On décode \textbf{0110100110101} ce qui donne : 
+ $0*2^{-1}+1*2^{-2}+1*2^{-3}+0*2^{-4}+1*2^{-5}+0*2^{-6}+0*2^{-7}+1*2^{-8}+1*2^{-9}+0*2^{-10}+1*2^{-11}+0*2^{-12}+1*2^{-13} = 0.41271972656$
+\\
+\begin{tabular}{|c|c|c|c|}
+    \hline
+    Réel & intervalle & symbole & position\\
+    \hline
+    0.41271972656 & [0.375, 0.5[ & c & 0\\
+    \hline
+    0.3017 & [0.0, 0.375[ & a & 1\\
+    \hline
+    0.8046 & [0.75, 0.1[ & n & 2\\
+    \hline
+    0.2186 & [0.0, 0.375[ & a & 3\\
+    \hline
+    0.5831 & [0.5, 0.625[ & d & 4\\
+    \hline
+    0.6653 & [0.625, 0.75[ & i & 5\\
+    \hline
+    0.3227 & [0.0, 0.375[ & a & 6\\
+    \hline
+    0.8606 & [0.75, 0.1[ & n & 7\\
+    \hline
+   
+\end{tabular}
+
+On retrouve comme mot : canadian.
